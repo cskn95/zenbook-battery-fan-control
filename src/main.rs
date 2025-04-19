@@ -80,7 +80,7 @@ fn main() {
         if battery_value != "one-time" {
             let rule_content = format!(r#"SUBSYSTEM=="power_supply", KERNEL=="BAT0", ATTR{{charge_control_end_threshold}}="{}""#, value_to_write);
 
-        match fs::write(UDEV_RULE_PATH, rule_content) {
+            match fs::write(UDEV_RULE_PATH, rule_content) {
             Ok(_) => println!("udev rule successfully written"),
             Err(e) => println!("failed to write to udev rule: {:?}{:?}", Some(e), Some(UDEV_RULE_PATH))
         }}
