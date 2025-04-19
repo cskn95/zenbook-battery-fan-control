@@ -1,6 +1,7 @@
 Please report any bugs and errors under "Issues" tab.
 
 Usage is pretty simple:
+
 sudo zenbook-cli  --[ARG] [OPTION]
 
 ARGS:
