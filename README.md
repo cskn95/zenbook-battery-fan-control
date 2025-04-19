@@ -2,8 +2,8 @@ Usage is pretty simple:
 sudo zenbook-cli  --[ARG] [OPTION]
 
 ARGS:
-battery
-fan
+- battery
+- fan
 
 Options:
 
