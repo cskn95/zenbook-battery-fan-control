@@ -6,6 +6,7 @@ battery
 fan
 
 Options:
+
 Battery:
 - max-blife: Charge limit to 60%
 - optimal: Charge limit to 80%
