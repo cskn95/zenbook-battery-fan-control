@@ -19,3 +19,5 @@ Battery:
 Fan:
 - full: Full fan speed.
 - auto: Auto fan speed.
+
+Tested on ASUS Zenbook 14 UM3406HA. Battery will limit probably work on any ASUS or even non-ASUS laptops but i'm not sure about fan control.
