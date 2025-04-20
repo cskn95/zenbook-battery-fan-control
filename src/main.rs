@@ -1,4 +1,4 @@
-use std::{fs, io, process::exit};
+use std::{fs, io, path::Path, process::exit};
 use clap::Parser;
 
 #[derive(Parser)]
@@ -18,11 +18,19 @@ fn write_value(file_path: &str, value: &str) -> Result<(), std::io::Error> {
 fn main() {
     let cli = Cli::parse();
 
+    const HWMON_DIR_PATH: &str = "/sys/devices/platform/asus-nb-wmi/hwmon/hwmon7";
     const PWM1_ENABLE_PATH: &str = "/sys/devices/platform/asus-nb-wmi/hwmon/hwmon7/pwm1_enable";
     const BATTERY_PATH: &str = "/sys/class/power_supply/BAT0/charge_control_end_threshold";
     const UDEV_RULE_PATH: &str = "/etc/udev/rules.d/99-zenbook-battery.rules";
 
     if let Some(fan_value) = cli.fan {
+
+        if !Path::new(HWMON_DIR_PATH).is_dir() {
+            eprintln!("Error: {} directory not found.", HWMON_DIR_PATH);
+            eprintln!("This might mean your laptop model is not supported or the necessary kernel modules are not loaded.");
+            eprintln!("laptop not supported");
+            exit(1); // Uygun bir hata kodu ile çıkış yapalım (örn: 1)
+        }
 
         let value_to_write = match fan_value.as_str() {
             "auto" => "2",
