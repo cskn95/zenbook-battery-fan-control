@@ -56,7 +56,6 @@ fn main() {
             }
         };
     }
-
     
     if let Some(battery_value) = cli.battery {
 
