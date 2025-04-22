@@ -29,7 +29,7 @@ fn main() {
             eprintln!("Error: {} directory not found.", HWMON_DIR_PATH);
             eprintln!("This might mean your laptop model is not supported or the necessary kernel modules are not loaded.");
             eprintln!("laptop not supported");
-            exit(1); // Uygun bir hata kodu ile çıkış yapalım (örn: 1)
+            exit(69); // Uygun bir hata kodu ile çıkış yapalım (örn: 1)
         }
 
         let value_to_write = match fan_value.as_str() {
@@ -59,6 +59,14 @@ fn main() {
 
     
     if let Some(battery_value) = cli.battery {
+
+        if !Path::new(BATTERY_PATH).is_dir() {
+            eprintln!("Error: {} directory not found.", BATTERY_PATH);
+            eprintln!("This might mean your laptop model is not supported or the necessary kernel modules are not loaded.");
+            eprintln!("laptop not supported");
+            exit(69); // Uygun bir hata kodu ile çıkış yapalım (örn: 1)
+        }
+        
         let value_to_write = match battery_value.as_str() {
             "optimal" => "80",
             "full" => "100",
@@ -86,7 +94,7 @@ fn main() {
         };
 
         if battery_value != "one-time" {
-            let rule_content = format!(r#"SUBSYSTEM=="power_supply", KERNEL=="BAT0", ATTR{{charge_control_end_threshold}}="{}""#, value_to_write);
+            let rule_content = format!(r#"ACTION=="add, SUBSYSTEM=="power_supply", KERNEL=="BAT0", ATTR{{charge_control_end_threshold}}="{}""#, value_to_write);
 
             match fs::write(UDEV_RULE_PATH, rule_content) {
             Ok(_) => println!("udev rule successfully written"),
