@@ -1,7 +1,15 @@
 #!/bin/bash
 
+# Color codes
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+MAGENTA='\033[0;35m'
+RESET='\033[0m'  # Reset to default color
+
 # Load Rust environment variables (if they exist)
-# Use '.' (dot command) for POSIX compatibility instead of 'source'
 if [ -f "$HOME/.cargo/env" ]; then
     . "$HOME/.cargo/env"
 fi
@@ -9,82 +17,58 @@ fi
 # Check if Rust is installed
 if ! command -v rustc &> /dev/null
 then
-    # If Rust is not found
-    echo "Rust not found. Would you like to install it? (Y/N)"
+    echo -e "${RED}Rust not found.${RESET} ${YELLOW}Would you like to install it? (Y/N)${RESET}"
     read -r answer
 
-    # If the user answers 'Y' or 'y'
     if [[ "$answer" == "Y" || "$answer" == "y" ]]; then
-        echo "Installing Rust..."
-        # Download and install Rust via rustup, automatically confirming prompts
+        echo -e "${CYAN}Installing Rust...${RESET}"
         curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-        # Load environment variables immediately after installation using '.'
         if [ -f "$HOME/.cargo/env" ]; then
              . "$HOME/.cargo/env"
         fi
-        echo "Rust has been installed! You may need to restart the terminal to use it."
+        echo -e "${GREEN}Rust successfully installed!${RESET} ${MAGENTA}You may need to restart the terminal to use it.${RESET}"
     else
-        # If the user does not want to install
-        echo "Rust was not installed. Exiting..."
-        exit 1 # Exit with an error code
+        echo -e "${RED}Rust was not installed. Exiting...${RESET}"
+        exit 1
     fi
 else
-    # If Rust is already installed
-    echo "Rust is already installed."
+    echo -e "${GREEN}Rust is already installed.${RESET}"
 fi
 
 # --- Build Step ---
-echo "Building the project with Cargo..." # Mesaj güncellendi
-# Projeyi derle (release modunda)
+echo -e "${BLUE}Building the project with Cargo...${RESET}"
 cargo build --release
 
-# Derlemenin başarılı olup olmadığını kontrol et
 if [ $? -eq 0 ]; then
-    echo "Build successful."
+    echo -e "${GREEN}Build successful.${RESET}"
 
     # --- Installation Step ---
-    source_bin="./target/release/zenbook-cli" # <<< Dosya adı düzeltildi
-    local_bin_dir="$HOME/.local/bin"          # Kullanıcı için standart binary dizini
-    dest_bin="$local_bin_dir/zenbook-cli"     # Hedef dosya yolu
+    source_bin="./target/release/zenbook-cli"
+    local_bin_dir="$HOME/.local/bin"
+    dest_bin="$local_bin_dir/zenbook-cli"
 
-    # Derlenen dosyanın var olup olmadığını kontrol et
     if [ -f "$source_bin" ]; then
-        echo "Installing zenbook-cli to $local_bin_dir..."
-
-        # Hedef dizini oluştur (varsa hata verme, yoksa oluştur)
+        echo -e "${CYAN}Installing zenbook-cli to ${MAGENTA}$local_bin_dir${CYAN}...${RESET}"
         mkdir -p "$local_bin_dir"
-
-        # Derlenmiş dosyayı .local/bin dizinine kopyala
         cp "$source_bin" "$dest_bin"
 
-        # Kopyalamanın başarılı olup olmadığını kontrol et
         if [ $? -eq 0 ]; then
-            echo "Successfully installed zenbook-cli to $dest_bin"
-            echo ""
-            echo "You should now be able to run 'zenbook-cli' commands directly from your terminal."
-            echo "(e.g., 'zenbook-cli --help', 'zenbook-cli --battery optimal')"
-            echo ""
-            echo "If the command 'zenbook-cli' is not found:"
-            echo "  1. Try opening a NEW terminal window/tab."
-            echo "  2. If that doesn't work, ensure '$HOME/.local/bin' is in your PATH."
-            echo "     You might need to log out and log back in, or add 'export PATH=\"\$HOME/.local/bin:\$PATH\"' to your ~/.bashrc or ~/.profile and run 'source ~/.bashrc'."
-
+            echo -e "${GREEN}Successfully installed zenbook-cli to ${MAGENTA}$dest_bin${GREEN}.${RESET}"
+            echo -e "${YELLOW}You should now be able to run 'zenbook-cli' commands directly from your terminal.${RESET}"
+            echo -e "${CYAN}(Example: 'zenbook-cli --help', 'zenbook-cli --battery optimal')${RESET}"
         else
-            echo "Error: Failed to copy binary from $source_bin to $dest_bin."
-            echo "Please check permissions."
+            echo -e "${RED}Error: Failed to copy binary. Please check permissions.${RESET}"
             exit 1
         fi
     else
-        echo "Error: Compiled binary not found at $source_bin."
+        echo -e "${RED}Error: Compiled binary not found.${RESET}"
         exit 1
     fi
-    # --- End Installation Step ---
 
 else
-    echo "An error occurred during the build (cargo build --release failed)." # Hata mesajı detaylandırıldı
+    echo -e "${RED}Error: 'cargo build --release' failed.${RESET}"
     exit 1
 fi
 
-echo ""
-echo "Setup complete!" # Son mesaj güncellendi
+echo -e "${GREEN}Setup complete!${RESET}"
 exit 0
