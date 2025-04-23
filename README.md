@@ -1,23 +1,20 @@
-Please report any bugs and errors under "Issues" tab.
+# Zenbook Battery Fan Control
 
-Usage is pretty simple:
+Zenbook Battery Fan Control is a Rust-based application designed to optimize fan speeds and battery management for Asus Zenbook series laptops. This software aims to improve device performance and energy efficiency by managing fan control and power consumption.
 
-sudo zenbook-cli  --[ARG] [OPTION]
+## Features
+- **Fan control:** Automatically adjusts system fans based on predefined temperature ranges.
+- **Advanced power management:** Optimizes battery consumption for extended usage.
+- **Fast and reliable with Rust:** Ensures lightweight and efficient operation.
+- **Open-source:** Developed with community support and freely available.
 
-ARGS:
-- battery
-- fan
-
-Options:
-
-Battery:
-- max-blife: Charge limit to 60%
-- optimal: Charge limit to 80%
-- full: No limit.
-- one-time: Charge to 100% only once.
-
-Fan:
-- full: Full fan speed.
-- auto: Auto fan speed.
-
-Tested on ASUS Zenbook 14 UM3406HA. Battery will limit probably work on any ASUS or even non-ASUS laptops but i'm not sure about fan control.
+## Installation
+```bash
+git clone https://github.com/cskn95/zenbook-battery-fan-control
+```
+```bash
+cd zenbook-battery-fan-control
+```
+```bash
+sh ./start.sh
+```
