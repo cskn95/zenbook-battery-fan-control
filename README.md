@@ -1,6 +1,6 @@
 # Zenbook Battery Fan Control
 
-Zenbook Battery Fan Control is a Rust-based application designed to give the user basic fan speed control and battery charge limit management for Asus Zenbook series laptops. This software aims to improve device performance and battery life by managing fan control and power consumption.
+Zenbook Battery Fan Control is a Rust-based application designed to give the user basic fan speed control and battery charge limit management for Asus Zenbook series laptops. This software aims to improve device performance and battery life by managing fan control and battery charge limit.
 
 ## Features
 - **Fan control:** Only max fan speed and auto modes are available now.
