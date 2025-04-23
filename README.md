@@ -1,23 +1,44 @@
-Please report any bugs and errors under "Issues" tab.
+# Zenbook Battery Fan Control
 
-Usage is pretty simple:
+Zenbook Battery Fan Control is a Rust-based application designed to give the user basic fan speed control and battery charge limit management for Asus Zenbook series laptops. This software aims to improve device performance and battery life by managing fan control and power consumption.
 
-sudo zenbook-cli  --[ARG] [OPTION]
+## Features
+- **Fan control:** Only max fan speed and auto modes are available now.
+- **Battery charge control:** Can add charging limits to increase battery life.
+- **Open-source:** Developed with community support and freely available.
 
-ARGS:
-- battery
-- fan
+## Usage via pre-compiled executable (recommended)
+- Download the latest release from the "releases" section.
+- Rotate to the folder that contains the downloaded file from the terminal (e.g., `cd $HOME/Downloads/`).
+- Use the app from the terminal with the desired commands.
+- E.g.: `sudo ./zenbook-cli -h`
 
-Options:
+## Installation via auto-compile script from source
+- This script checks and downloads (if necessary) the required Rust tools to compile the code and copies the compiled executable to the ".local/bin" directory.
+- Use the app from the terminal with the desired commands.
+- E.g.: `sudo $Home/.local/bin/zenbook-cli -h`
+  
+```bash
+git clone https://github.com/cskn95/zenbook-battery-fan-control
+```
+```bash
+cd zenbook-battery-fan-control
+```
+```bash
+chmod +x start.sh
+```
+```bash
+./start.sh
+```
 
-Battery:
-- max-blife: Charge limit to 60%
-- optimal: Charge limit to 80%
-- full: No limit.
-- one-time: Charge to 100% only once.
-
-Fan:
-- full: Full fan speed.
-- auto: Auto fan speed.
-
-Tested on ASUS Zenbook 14 UM3406HA. Battery will limit probably work on any ASUS or even non-ASUS laptops but i'm not sure about fan control.
+## Available commands
+- **-b**
+  - optimal: Charging limit to 80%.
+  - max-blife: Charging limit to 60%.
+  - full: No limit.
+  - one-time: Charge to 100% only once.
+- **-f**
+  - full: Maximum fan speed.
+  - auto: Auto fan speed.
+ 
+E.g.: `zenbook-cli -b optimal`
