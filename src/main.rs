@@ -45,7 +45,8 @@
                     });
 
                     if paths_vec.len() == 1 {
-                        let path = paths_vec[0].path();
+                        let mut path = paths_vec[0].path();
+                        path.push("pwm1_enable");
                         pwm1_enable_path = path.to_string_lossy().to_string();
                     } else {
                         println!("Multiple hardware watchers detected, please report your laptop model for support");
